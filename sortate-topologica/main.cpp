@@ -1,57 +1,47 @@
-#include <fstream>
+#include <cstdio>
+#include <cstring>
+#include <vector>
 using namespace std;
-ifstream in("sortaret.in");
-ofstream out("sortaret.out");
-const int N=10001;
-const int M=100001;
-int a[N][N];
-int n,m, v[N];
-void citire()
+
+#define MAXN 50100
+#define pb push_back
+
+int N, M, viz[MAXN], deg[MAXN]; vector<int> G[MAXN];
+
+void solve_and_write(void)
 {
-  in >> n >> m;
-  for(int i=1;i<=m;i++)
-  {
-    int x,y;
-    in >> x >> y;
-    a[x][y] = 1;
-  }
+    int i, j, k;
+
+    for(i = 1; i <= N; i++)
+    {
+        for(j = 1; j <= N; j++)
+         if(!viz[j] && deg[j] == 0)
+         {
+            viz[j] = 1, printf("%d ", j);
+            for(k = 0; k < G[j].size(); k++)
+                deg[ G[j][k] ]--;
+            break ;
+         }
+    }
 }
-void  afisare()
+
+void read_data(void)
 {
-  for(int i=1;i<=n;i++)
-  {
-    for(int j=1;j<=n;j++)
-        out << a[i][j] << " ";
-    out << "\n";
-  }
+    int i, a, b;
+
+    scanf("%d %d\n", &N, &M);
+    for(i = 1; i <= M; i++)
+        scanf("%d %d", &a, &b), G[a].pb(b), deg[b]++;
 }
-void dfs(int i)
-{
-  for(int j=1;j<=n;j++)
-  {
-    if(a[i][j])
-      {
 
-        dfs(j);
-        
-      }
-  }
-  if(v[i] == 0)
-  {
-  out << i;
-  v[i] = 1;
-  }
-
-}
-int main()
+int main(void)
 {
 
-  citire();
-  for(int i=1;i<=n;i++)
-  {
+    freopen("sortaret.in", "rt", stdin);
+    freopen("sortaret.out", "wt", stdout);
 
-    dfs(i);
+    read_data();
+    solve_and_write();
 
-  }
-  return 0;
+    return 0;
 }
