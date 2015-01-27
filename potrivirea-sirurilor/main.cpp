@@ -14,52 +14,63 @@ void citire()
   getline(in,a);
   getline(in,b);
 }
-bool search(int i)
+void urm()
 {
-  for(int j=1;j<=n;j++)
-    if(a[j-1] != b[j+i-1])
-      return 0;
-  return 1;
+  int j;
+  p[0] = -1;
+  j = -1;
+  for(int i=0;i<=n;i++)
+  {
+    while(j>=0 && a[i] != a[j])
+    {
+      j = p[j];
+    }
+
+    j++;
+    p[i+1] = j;
+  }
+
 }
-void prefix()
+int poz(int j)
 {
   for(int i=1;i<=n;i++)
   {
-    int k=0;
-    while(k>0 && a[k+1] != a[k])
-      k = p[k];
-    if(a[k+1] == a[k])
-        k++;
-    p[i] =k;
+    if(a[i-1] != b[j+i-1])
+      return i;
   }
+  return -1;
 }
 void match()
 {
-  int q=0;
-  for(int i=1;i<=m;i++)
+  int j=0;
+  while(j<m && j>=0)
   {
-    while(q>0 && a[q-1] != b[i])
-      q = p[q];
-    if(a[q+1] == b[i])
-      q++;
-    out << q << " " << i << "\n";
-    if(q==n)
-      out <<i;
+    int match = poz(j)-1;
+    if(match  == -1)
+    {
+       out << j;
+       j =
+    }
+    else
+    {
+      cout << "(" << j << ") ";
+      cout << "failed at " << match <<" ";
+      cout << "fail = " << p[match] << " ";
+      cout << "jump by " << match - p[match] << "\n";
+      j += match- p[match];
+    }
   }
+
 }
 int main()
 {
   citire();
   n = a.length();
   m = b.length();
-  v = new int[n];
-  prefix();
-  for(int i=1;i<=n;i++)
-    out << p[i] << " ";
-  //match();
-  // out << total<<"\n";
-  // for(int i=1;i<=total;i++)
-  //   out << v[i] << " ";
+
+  urm();
+  match();
+
   in.close();
   out.close();
 }
